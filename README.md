@@ -1,4 +1,5 @@
-#项目结构
+# 项目结构
+
 ```yaml
 springcloud-learning
 ├── eureka-server -- eureka注册中心
@@ -19,7 +20,8 @@ springcloud-learning
 ├── oauth2-jwt-server -- 使用jwt的oauth2认证测试服务
 ├── oauth2-client -- 单点登录的oauth2客户端服务
 ```
-#Eureka的常用配置
+# Eureka的常用配置
+
 ```yaml
 eureka:
   client: #eureka客户端配置
@@ -39,11 +41,13 @@ eureka:
   server: #eureka服务端配置
     enable-self-preservation: false #关闭eureka服务端的保护机制
 ```
-#RestTemplate的使用
+# RestTemplate的使用
+
 ```text
 RestTemplate是一个HTTP客户端，使用它我们可以方便的调用HTTP接口，支持GET、POST、PUT、DELETE等方法。
 ```
-####GET请求方法
+#### GET请求方法
+
 ```java
 <T> T getForObject(String url, Class<T> responseType, Object... uriVariables);
 
@@ -77,7 +81,8 @@ public CommonResult getEntityByUsername(@RequestParam String username) {
     }
 }
 ```
-####POST请求方法
+#### POST请求方法
+
 ```java
 <T> T postForObject(String url, @Nullable Object request, Class<T> responseType, Object... uriVariables);
 
@@ -106,7 +111,8 @@ public CommonResult create(@RequestBody User user) {
     return restTemplate.postForEntity(userServiceUrl + "/user/create", user, CommonResult.class).getBody();
 }
 ```
-####PUT请求方法
+#### PUT请求方法
+
 ```java
 void put(String url, @Nullable Object request, Object... uriVariables);
 
@@ -124,7 +130,8 @@ public CommonResult update(@RequestBody User user) {
 }
 
 ```
-####DELETE请求方法
+#### DELETE请求方法
+
 ```java
 void delete(String url, Object... uriVariables);
 
@@ -143,7 +150,8 @@ public CommonResult delete(@PathVariable Long id) {
 }
 
 ```
-#Ribbon的常用配置
+# Ribbon的常用配置
+
 ```yaml
 ribbon:
   ConnectTimeout: 1000 #服务请求连接超时时间（毫秒）
@@ -154,7 +162,8 @@ ribbon:
   NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule #修改负载均衡算法
 
 ```
-####指定服务进行配置
+#### 指定服务进行配置
+
 ```yaml
 user-service:
   ribbon:
@@ -166,7 +175,8 @@ user-service:
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule #修改负载均衡算法
 
 ```
-#Ribbon的负载均衡策略
+# Ribbon的负载均衡策略
+
 ```text
 所谓的负载均衡策略，就是当A服务调用B服务时，此时B服务有多个实例，这时A服务以何种方式来选择调用的B实例，ribbon可以选择以下几种负载均衡策略
 ```
@@ -215,7 +225,8 @@ hystrix:
       maxQueueSize: -1 #用于设置线程池的最大队列大小，-1采用SynchronousQueue，其他正数采用LinkedBlockingQueue
       queueSizeRejectionThreshold: 5 #用于设置线程池队列的拒绝阀值，由于LinkedBlockingQueue不能动态改版大小，使用时需要用该参数来控制线程数
 ```
-####实例配置
+#### 实例配置
+
 ```yaml
 hystrix:
   command:
@@ -230,7 +241,8 @@ hystrix:
     HystrixThreadPoolKey: #将default换成HystrixThreadPoolKey
       coreSize: 10
 ```
-####配置文件中相关key的说明
+#### 配置文件中相关key的说明
+
 - HystrixComandKey对应@HystrixCommand中的commandKey属性；
 - HystrixCollapserKey对应@HystrixCollapser注解中的collapserKey属性；
 - HystrixThreadPoolKey对应@HystrixCommand中的threadPoolKey属性。
@@ -238,7 +250,9 @@ hystrix:
 ![binaryTree](img/Hystrix Dashboard.png "Hystrix Dashboard")
 
 ![binaryTree](img/Hystrix高性能监控演示.png "Hystrix高性能监控演示")
-#Zuul常用配置
+
+# Zuul常用配置
+
 ```yaml
 zuul:
   routes: #给服务配置路由
@@ -256,7 +270,7 @@ zuul:
       disable: false #控制是否启用过滤器
 
 ```
-####Ribbon和Hystrix的支持
+#### Ribbon和Hystrix的支持
 ```text
 由于Zuul自动集成了Ribbon和Hystrix，所以Zuul天生就有负载均衡和服务容错能力，我们可以通过Ribbon和Hystrix的配置来配置Zuul中的相应功能。
 ```
